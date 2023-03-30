@@ -18,6 +18,7 @@ public class Login {
             scanner.nextLine();
 
             switch (opcion) {
+
                 case 1:
                     System.out.print("\nIngrese su nombre de usuario:");
                     String usuario = scanner.nextLine();
@@ -25,12 +26,58 @@ public class Login {
                     String contrasenia = scanner.nextLine();
 
                     if (verificarCredenciales(usuario, contrasenia)) {
+                        Usuario usuarioAutenticado = obtenerUsuario(usuario);
                         System.out.println("Inicio de sesión exitoso.");
+
+                        if (usuarioAutenticado != null && usuarioAutenticado.getTipoUsuario().equals("admin")) {
+                            // Menú de admin
+                            System.out.println("\nBienvenido, admin.");
+                            System.out.println("Elige una opción:");
+                            System.out.println("1. Ver lista de usuarios");
+                            System.out.println("2. Salir");
+
+                            int opcionAdmin = scanner.nextInt();
+                            scanner.nextLine();
+
+                            switch (opcionAdmin) {
+                                case 1:
+                                    verListaUsuarios();
+                                    break;
+                                case 2:
+                                    System.out.println("Hasta luego.");
+                                    System.exit(0);
+                                default:
+                                    System.out.println("Opción inválida.");
+                                    break;
+                            }
+                        } else {
+                            // Menú de usuario normal
+                            System.out.println("\nBienvenido, " + usuario + ".");
+                            System.out.println("Elige una opción:");
+                            System.out.println("1. Ver perfil");
+                            System.out.println("2. Salir");
+
+                            int opcionUsuario = scanner.nextInt();
+                            scanner.nextLine();
+
+                            switch (opcionUsuario) {
+                                case 1:
+                                    verPerfil(usuario);
+                                    break;
+                                case 2:
+                                    System.out.println("Hasta luego.");
+                                    System.exit(0);
+                                default:
+                                    System.out.println("Opción inválida.");
+                                    break;
+                            }
+                        }
                     } else {
                         System.out.println("\nInicio de sesión fallido.");
                     }
-
                     break;
+
+
                 case 2:
                     System.out.print("Ingrese el nombre de usuario:");
                     String nombreUsuario = scanner.nextLine();
@@ -75,6 +122,15 @@ public class Login {
                     System.out.println("Opción inválida.");
             }
         }
+    }
+
+    private static void verListaUsuarios() {
+    }
+
+    private static void verPerfil(String usuario) {
+    }
+
+    private static Usuario obtenerUsuario(String usuario) {
     }
 
     public static boolean verificarCredenciales(String usuario, String contrasenia) {
@@ -143,6 +199,6 @@ public class Login {
         return true;
     }
 }
-//pruebadfghjksdfghjkl
+
 
 
