@@ -24,13 +24,22 @@ public class Login {
                     System.out.print("Ingrese su contraseña:");
                     String contrasenia = scanner.nextLine();
 
-                    if (verificarCredenciales(usuario, contrasenia)) {
+                    Usuario usuarioActual = obtenerUsuario(usuario);
+
+                    if (usuarioActual != null && usuarioActual.getContrasenia().equals(contrasenia)) {
                         System.out.println("Inicio de sesión exitoso.");
+
+                        if (usuarioActual.getTipoUsuario().equals("usuario")) {
+                            menus.menuUsuario(usuarioActual);
+                        } else if (usuarioActual.getTipoUsuario().equals("admin")) {
+                            menus.menuAdmin(usuarioActual);
+                        }
                     } else {
                         System.out.println("\nInicio de sesión fallido.");
                     }
 
                     break;
+
                 case 2:
                     System.out.print("Ingrese el nombre de usuario:");
                     String nombreUsuario = scanner.nextLine();
@@ -39,8 +48,9 @@ public class Login {
                     System.out.println("Elija el tipo de usuario:");
                     System.out.println("1. Admin");
                     System.out.println("2. Usuario");
-                    String tipoUsuario = null;
                     int tipoUsuarioOpcion = scanner.nextInt();
+                    scanner.nextLine(); // consume el salto de línea
+                    String tipoUsuario = null;
                     switch (tipoUsuarioOpcion) {
                         case 1:
                             tipoUsuario = "admin";
@@ -142,6 +152,36 @@ public class Login {
 
         return true;
     }
+
+
+    public static Usuario obtenerUsuario(String nombreUsuario) {
+        try {
+            File archivo = new File("usuarios.txt");
+            Scanner scanner = new Scanner(archivo);
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] componentes = linea.split(",");
+
+                if (componentes.length >= 3) {
+                    String usuario = componentes[0];
+                    String contrasenia = componentes[1];
+                    String tipoUsuario = componentes[2];
+
+                    if (usuario.equals(nombreUsuario)) {
+                        scanner.close();
+                        return new Usuario(usuario, contrasenia, tipoUsuario);
+                    }
+                }
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
 
 
