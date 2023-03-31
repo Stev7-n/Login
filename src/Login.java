@@ -19,6 +19,7 @@ public class Login {
 
             switch (opcion) {
                 case 1:
+
                     System.out.print("\nIngrese su nombre de usuario:");
                     String usuario = scanner.nextLine();
                     System.out.print("Ingrese su contraseña:");
@@ -49,9 +50,11 @@ public class Login {
                     System.out.println("1. Admin");
                     System.out.println("2. Usuario");
                     int tipoUsuarioOpcion = scanner.nextInt();
-                    scanner.nextLine(); // consume el salto de línea
+                    scanner.nextLine();
                     String tipoUsuario = null;
+
                     switch (tipoUsuarioOpcion) {
+
                         case 1:
                             tipoUsuario = "admin";
                             System.out.print("Ingrese la contraseña de autorización:");
@@ -61,6 +64,7 @@ public class Login {
                                 break;
                             }
                             break;
+
                         case 2:
                             tipoUsuario = "usuario";
                             break;
@@ -182,7 +186,9 @@ public class Login {
         return null;
     }
 
+
 }
+
 
 
 
