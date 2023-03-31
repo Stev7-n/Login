@@ -24,13 +24,22 @@ public class Login {
                     System.out.print("Ingrese su contraseña:");
                     String contrasenia = scanner.nextLine();
 
-                    if (verificarCredenciales(usuario, contrasenia)) {
+                    Usuario usuarioActual = obtenerUsuario(usuario);
+
+                    if (usuarioActual != null && usuarioActual.getContrasenia().equals(contrasenia)) {
                         System.out.println("Inicio de sesión exitoso.");
+
+                        if (usuarioActual.getTipoUsuario().equals("usuario")) {
+                            menus.menuUsuario(usuarioActual);
+                        } else if (usuarioActual.getTipoUsuario().equals("admin")) {
+                            menus.menuAdmin(usuarioActual);
+                        }
                     } else {
                         System.out.println("\nInicio de sesión fallido.");
                     }
 
                     break;
+
                 case 2:
                     System.out.print("Ingrese el nombre de usuario:");
                     String nombreUsuario = scanner.nextLine();
@@ -143,6 +152,6 @@ public class Login {
         return true;
     }
 }
-//prueba
+
 
 

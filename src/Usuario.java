@@ -21,5 +21,12 @@ public class Usuario {
         return tipoUsuario;
     }
 
+    public void setContrasenia(String nuevaContrasenia) {
+    }
+    private static void actualizarUsuario(Usuario usuario) {
+    }
+
+    static void verPerfil(String nombreUsuario) {
+    }
 }
 
