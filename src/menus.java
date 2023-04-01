@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class menus {
@@ -100,7 +97,54 @@ public class menus {
                     break;
 
 
-                case 2, 3:
+                case 2:
+                    System.out.print("Ingrese el nombre del producto a eliminar: ");
+                    String productoAEliminar = scanner.nextLine();
+
+
+                    File archivo = new File("productos.txt");
+
+
+                    File archivoTemporal = new File("temp.txt");
+
+                    try {
+                        FileReader fr = new FileReader(archivo);
+                        BufferedReader br = new BufferedReader(fr);
+
+                        FileWriter fw = new FileWriter(archivoTemporal);
+                        BufferedWriter bw = new BufferedWriter(fw);
+
+                        String lineaActual;
+
+
+                        while ((lineaActual = br.readLine()) != null) {
+
+
+                            if (!lineaActual.contains(productoAEliminar)) {
+                                bw.write(lineaActual);
+                                bw.newLine();
+                            }
+                        }
+
+                        bw.close();
+                        br.close();
+
+
+                        archivo.delete();
+
+
+                        archivoTemporal.renameTo(archivo);
+
+                        System.out.println("Producto eliminado exitosamente");
+
+                    } catch (IOException e) {
+                        System.out.println("Ocurrió un error al intentar eliminar el producto");
+                        e.printStackTrace();
+                    }
+                break;
+
+
+                case 3:
                     break;
 
                 case 4:
