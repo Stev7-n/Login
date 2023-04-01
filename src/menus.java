@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.Scanner;
 
 public class menus {
-
     static void menuUsuario(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
 
@@ -12,13 +11,34 @@ public class menus {
             System.out.println("2. Ver historial.");
             System.out.println("3. Salir");
 
-
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
+
                 case 1:
-                    verProductosGuardados();
+                    filtros.verProductosGuardados();
+                    System.out.println("¿Desea filtrar por categoría o por producto?");
+                    System.out.println("1. Filtrar por categoría");
+                    System.out.println("2. Filtrar por producto");
+                    int filtro = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (filtro) {
+                        case 1:
+                            System.out.println("Ingrese la categoría que desea filtrar:");
+                            String categoria = scanner.nextLine();
+                            filtros.verProductosGuardados(categoria);
+                            break;
+                        case 2:
+                            System.out.println("Ingrese el nombre del producto que desea filtrar:");
+                            String producto = scanner.nextLine();
+                            filtros.filtrarPorProducto(producto);
+                            break;
+
+                        default:
+                            System.out.println("Opción inválida.");
+                    }
                     break;
 
                 case 2:
@@ -31,39 +51,6 @@ public class menus {
             }
         }
     }
-
-    public static void verProductosGuardados() {
-        try {
-            File archivo = new File("productos.txt");
-            Scanner scanner = new Scanner(archivo);
-
-            while (scanner.hasNextLine()) {
-                String linea = scanner.nextLine();
-
-                if (linea.trim().isEmpty()) {  // Si la línea está en blanco, saltamos a la siguiente
-                    continue;
-                }
-
-                String[] partes = linea.split(", ");
-                String nombreProducto = partes[0];
-                String descripcion = partes[1];
-                String categoria = partes[2];
-                double precio = Double.parseDouble(partes[3]);
-
-                System.out.println("Nombre del producto: " + nombreProducto);
-                System.out.println("Descripción: " + descripcion);
-                System.out.println("Categoría: " + categoria);
-                System.out.println("Precio: " + precio);
-                System.out.println();
-            }
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     static void menuAdmin(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
 
@@ -74,12 +61,12 @@ public class menus {
             System.out.println("3. Informe de ventas.");
             System.out.println("4. Salir.");
 
-
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
                 case 1:
+
                     System.out.print("Ingrese el nombre del producto:");
                     String nombreProducto = scanner.nextLine();
                     System.out.print("Ingrese la descripción del producto:");
@@ -96,15 +83,11 @@ public class menus {
                     System.out.println("\nProducto agregado exitosamente.");
                     break;
 
-
                 case 2:
                     System.out.print("Ingrese el nombre del producto a eliminar: ");
                     String productoAEliminar = scanner.nextLine();
 
-
                     File archivo = new File("productos.txt");
-
-
                     File archivoTemporal = new File("temp.txt");
 
                     try {
@@ -116,7 +99,6 @@ public class menus {
 
                         String lineaActual;
 
-
                         while ((lineaActual = br.readLine()) != null) {
 
 
@@ -125,14 +107,9 @@ public class menus {
                                 bw.newLine();
                             }
                         }
-
                         bw.close();
                         br.close();
-
-
                         archivo.delete();
-
-
                         archivoTemporal.renameTo(archivo);
 
                         System.out.println("Producto eliminado exitosamente");
@@ -141,7 +118,7 @@ public class menus {
                         System.out.println("Ocurrió un error al intentar eliminar el producto");
                         e.printStackTrace();
                     }
-                break;
+                    break;
 
 
                 case 3:
@@ -155,25 +132,15 @@ public class menus {
             }
         }
     }
-
     public static void agregarProductos(Producto productos) {
         try {
             FileWriter archivo = new FileWriter("productos.txt", true);
-            archivo.write(productos.getNombreProducto() + ", " + productos.getDescripcion() + ", " + productos.getCategoria()
-                    + ", " + productos.getPrecio() + "\n");
+            archivo.write(productos.getNombreProducto() + ", " + productos.getDescripcion() + ", " + productos.getCategoria() + ", " + productos.getPrecio() + "\n");
             archivo.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private static void agregarUsuario(Usuario nuevoUsuario) {
-    }
-
-    private static void verListaUsuarios() {
-    }
-
-
 }
 
 
