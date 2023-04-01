@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class filtros {
 
-    public static void filtrarPorProducto(String producto) {
+    public static Producto filtrarPorProducto(String producto) {
         try {
             File archivo = new File("productos.txt");
             Scanner scanner = new Scanner(archivo);
@@ -35,6 +35,7 @@ public class filtros {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
@@ -101,4 +102,5 @@ public class filtros {
             e.printStackTrace();
         }
     }
+
 }

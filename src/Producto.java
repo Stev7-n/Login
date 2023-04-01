@@ -31,4 +31,9 @@ public class Producto {
         return precio;
     }
 
+    public double getPrecioTotal(int cantidad) {
+        return this.precio * cantidad;
+    }
+
+
 }
