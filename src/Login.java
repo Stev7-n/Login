@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Login {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -14,7 +14,12 @@ public class Login {
             System.out.println("2. Crear usuario");
             System.out.println("3. Salir");
 
-            int opcion = scanner.nextInt();
+            int opcion;
+            while (!scanner.hasNextInt()) {
+                System.out.println("Opción inválida. Ingrese un número válido.");
+                scanner.nextLine();
+            }
+            opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
@@ -90,7 +95,6 @@ public class Login {
             }
         }
     }
-
     public static boolean verificarCredenciales(String usuario, String contrasenia) {
         if (usuario == null || contrasenia == null) {
             return false;

@@ -1,5 +1,8 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Usuario {
-    private String nombreUsuario;
+    private static String nombreUsuario;
     private String contrasenia;
     private String tipoUsuario;
 
@@ -9,7 +12,7 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getNombreUsuario() {
+    public static String getNombreUsuario() {
         return nombreUsuario;
     }
 
@@ -21,12 +24,21 @@ public class Usuario {
         return tipoUsuario;
     }
 
-    public void setContrasenia(String nuevaContrasenia) {
-    }
-    private static void actualizarUsuario(Usuario usuario) {
+    public void agregarCompra(Producto productoEncontrado, int cantidadComprar, double totalCompra)
+            throws IOException, IOException {
+        try {
+            FileWriter archivo = new FileWriter("compras.txt", true);
+            archivo.write(Usuario.getNombreUsuario() + ", " + productoEncontrado.getNombreProducto()
+                    + ", " + cantidadComprar + ", " + totalCompra + "\n");
+            archivo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    static void verPerfil(String nombreUsuario) {
-    }
+
+
+
 }
 

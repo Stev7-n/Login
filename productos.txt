@@ -15,3 +15,4 @@ Pera, Fruta fresca recien traida del campo., Frutas, 1400.0
 Piña, Fruta fresca recien traida del campo., Frutas, 4000.0
 Banano, Fruta fresca recien traida del campo., Frutas, 500.0
 
+Galletas, Dulces, Pasabocas, 2500.0

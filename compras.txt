@@ -1,0 +1,13 @@
+alma, Piña, 2, 8000.0
+alma, Pera, 3, 4200.0
+alma, Escoba , 2, 24000.0
+alma, Coca Cola 3Lts, 2, 18000.0
+
+alma, Piña, 3, 12000.0
+alma, Pera, 4, 5600.0
+alma, Manzana Roja, 3, 4500.0
+alma, Manzana Verde, 2, 3000.0
+alma, Escoba , 1, 12000.0
+pablo, Piña, 3, 12000.0
+pablo, Pera, 2, 2800.0
+pablo, Escoba , 2, 24000.0

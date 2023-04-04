@@ -1,10 +1,9 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class menus {
-    static void menuUsuario(Usuario usuario) {
+    static void menuUsuario(Usuario usuario) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -27,7 +26,6 @@ public class menus {
                     int filtro = scanner.nextInt();
                     scanner.nextLine();
 
-                   //
                     switch (filtro) {
                         case 1:
                             System.out.println("Ingrese la categoría que desea filtrar:");
@@ -35,7 +33,7 @@ public class menus {
                             filtros.verProductosGuardados(categoria);
                             break;
                         case 2:
-                            String producto = null;
+                            String producto;
                             System.out.println("Ingrese el nombre del producto que desea filtrar:");
                             producto = scanner.nextLine();
                             filtros.filtrarPorProducto(producto);
@@ -51,40 +49,24 @@ public class menus {
 
                 case 3:
                     System.out.println("Ingrese los productos que desea comprar, separados por comas:");
-                    String productosStr = scanner.nextLine();
-                    String[] productosArr = productosStr.split(",");
-                    HashMap<Producto, Integer> productosComprados = new HashMap<Producto, Integer>();
-                    double total = 0.0;
-                    for (String productoNombre : productosArr) {
-                        System.out.println("Ingrese la cantidad que desea comprar de " + productoNombre.trim() + ":");
-                        int cantidad = scanner.nextInt();
-                        scanner.nextLine();
-                        Producto producto = filtros.filtrarPorProducto(productoNombre.trim());
-                        if (producto != null) {
-                            productosComprados.put(producto, cantidad);
-                            total += producto.getPrecioTotal(cantidad);
-                        } else {
-                            System.out.println("Producto no encontrado: " + productoNombre.trim());
+                    String[] productosComprar = scanner.nextLine().split(",");
+                    double totalCompra = 0;
+                    for (String nombreProducto : productosComprar) {
+                        Producto productoEncontrado = filtros.buscarProducto(nombreProducto.trim());
+                        if (productoEncontrado == null) {
+                            System.out.println("No se encontró el producto: " + nombreProducto);
+                            continue;
                         }
+                        System.out.println("Ingrese la cantidad que desea comprar de " + nombreProducto + ":");
+                        int cantidadComprar = scanner.nextInt();
+                        scanner.nextLine();
+                        double totalProducto = cantidadComprar * productoEncontrado.getPrecio();
+                        System.out.println("Total de la compra de " + nombreProducto + ": " + totalProducto);
+                        usuario.agregarCompra(productoEncontrado, cantidadComprar, totalProducto);
+                        totalCompra += totalProducto;
                     }
-                    System.out.println("Resumen de compra:");
-                    for (Map.Entry<Producto, Integer> entry : productosComprados.entrySet()) {
-                        Producto producto = entry.getKey();
-                        int cantidad = entry.getValue();
-                        System.out.println("- " + producto.getNombreProducto() + " x " + cantidad + ": " + producto.getPrecioTotal(cantidad));
-                    }
-                    System.out.println("Total: " + total);
-                    System.out.println("¿Desea confirmar la compra? (s/n)");
-                    String confirmacion = scanner.nextLine();
-                    if (confirmacion.equalsIgnoreCase("s")) {
-                        // Procesar la compra
-                        // ...
-                        System.out.println("Compra realizada exitosamente");
-                    } else {
-                        System.out.println("Compra cancelada");
-                    }
+                    System.out.println("Total de la compra: " + totalCompra);
                     break;
-
 
                 case 4:
                     System.out.println("Hasta luego.");
@@ -178,12 +160,14 @@ public class menus {
     public static void agregarProductos(Producto productos) {
         try {
             FileWriter archivo = new FileWriter("productos.txt", true);
-            archivo.write(productos.getNombreProducto() + ", " + productos.getDescripcion() + ", " + productos.getCategoria() + ", " + productos.getPrecio() + "\n");
+            archivo.write(productos.getNombreProducto() + ", " + productos.getDescripcion() + ", "
+                    + productos.getCategoria() + ", " + productos.getPrecio() + "\n");
             archivo.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
 
 
