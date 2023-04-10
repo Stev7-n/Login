@@ -14,6 +14,8 @@ public class menus {
             System.out.println("4. Salir");
 
             int opcion = scanner.nextInt();
+
+            
             scanner.nextLine();
 
             switch (opcion) {
@@ -51,6 +53,7 @@ public class menus {
                     System.out.println("Ingrese los productos que desea comprar, separados por comas:");
                     String[] productosComprar = scanner.nextLine().split(",");
                     double totalCompra = 0;
+                    UUID compraId = UUID.randomUUID();
                     for (String nombreProducto : productosComprar) {
                         Producto productoEncontrado = filtros.buscarProducto(nombreProducto.trim());
                         if (productoEncontrado == null) {
@@ -62,10 +65,17 @@ public class menus {
                         scanner.nextLine();
                         double totalProducto = cantidadComprar * productoEncontrado.getPrecio();
                         System.out.println("Total de la compra de " + nombreProducto + ": " + totalProducto);
-                        usuario.agregarCompra(productoEncontrado, cantidadComprar, totalProducto);
+                        agregarCompraArchivo(compraId, Usuario.getNombreUsuario(), productoEncontrado.getNombreProducto(), cantidadComprar, totalProducto);
                         totalCompra += totalProducto;
                     }
                     System.out.println("Total de la compra: " + totalCompra);
+                    System.out.println("¿Desea continuar con la compra? (Confirmar/Cancelar)");
+                    String confirmacion = scanner.nextLine();
+                    if (confirmacion.equalsIgnoreCase("Confirmar")) {
+                        System.out.println("Compra realizada con éxito. ID de compra: " + compraId);
+                    } else {
+                        System.out.println("Compra cancelada. ID de compra: " + compraId);
+                    }
                     break;
 
                 case 4:
@@ -76,6 +86,7 @@ public class menus {
             }
         }
     }
+
     static void menuAdmin(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
 
@@ -157,6 +168,7 @@ public class menus {
             }
         }
     }
+
     public static void agregarProductos(Producto productos) {
         try {
             FileWriter archivo = new FileWriter("productos.txt", true);
@@ -167,6 +179,31 @@ public class menus {
             e.printStackTrace();
         }
     }
+
+    /*public static void agregarCompra(UUID compraId, Producto productoEncontrado, int cantidadComprar, double totalCompra)
+            throws IOException, IOException {
+        try {
+            FileWriter archivo = new FileWriter("compras.txt", true);
+            archivo.write(Usuario.getNombreUsuario() + ", " + productoEncontrado.getNombreProducto()
+                    + ", " + cantidadComprar + ", " + totalCompra + "\n");
+            archivo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
+    public static void agregarCompraArchivo(UUID compraId, String nombreUsuario, String nombreProducto, int cantidad, double precioTotal) {
+        try {
+            FileWriter archivo = new FileWriter("compras.txt", true);
+            archivo.write(compraId + "," + nombreUsuario + "," + nombreProducto + "," + cantidad + "," + precioTotal + "\n");
+            archivo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
 

@@ -95,6 +95,7 @@ public class Login {
             }
         }
     }
+
     public static boolean verificarCredenciales(String usuario, String contrasenia) {
         if (usuario == null || contrasenia == null) {
             return false;
@@ -137,6 +138,7 @@ public class Login {
         }
 
     }
+
     private static boolean verificarCredencialesregistro(String nombreUsuariore) {
         try {
             File archivo = new File("usuarios.txt");

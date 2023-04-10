@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.UUID;
 
 public class Usuario {
     private static String nombreUsuario;
@@ -23,20 +24,6 @@ public class Usuario {
     public String getTipoUsuario() {
         return tipoUsuario;
     }
-
-    public void agregarCompra(Producto productoEncontrado, int cantidadComprar, double totalCompra)
-            throws IOException, IOException {
-        try {
-            FileWriter archivo = new FileWriter("compras.txt", true);
-            archivo.write(Usuario.getNombreUsuario() + ", " + productoEncontrado.getNombreProducto()
-                    + ", " + cantidadComprar + ", " + totalCompra + "\n");
-            archivo.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
 
 
