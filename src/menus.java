@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -47,6 +49,15 @@ public class menus {
                     break;
 
                 case 2:
+                    List<String> historial = usuario.obtenerHistorialCompras(opcion);
+                    if (historial.isEmpty()) {
+                        System.out.println("No se encontraron compras para este usuario");
+                    } else {
+                        System.out.println("Historial de compras para el usuario " + usuario.getNombreUsuario() + ":");
+                        for (String compra : historial) {
+                            System.out.println(compra);
+                        }
+                    }
                     break;
 
                 case 3:
@@ -180,19 +191,6 @@ public class menus {
         }
     }
 
-    /*public static void agregarCompra(UUID compraId, Producto productoEncontrado, int cantidadComprar, double totalCompra)
-            throws IOException, IOException {
-        try {
-            FileWriter archivo = new FileWriter("compras.txt", true);
-            archivo.write(Usuario.getNombreUsuario() + ", " + productoEncontrado.getNombreProducto()
-                    + ", " + cantidadComprar + ", " + totalCompra + "\n");
-            archivo.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
     public static void agregarCompraArchivo(UUID compraId, String nombreUsuario, String nombreProducto, int cantidad, double precioTotal) {
         try {
             FileWriter archivo = new FileWriter("compras.txt", true);
@@ -203,7 +201,28 @@ public class menus {
         }
     }
 
-
+    public static List<Compra> leerComprasUsuario(String nombreUsuarioCompra) {
+        List<Compra> comprasUsuario = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new File("compras.txt"));
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] datosCompra = linea.split(",");
+                if (datosCompra[1].equals(nombreUsuarioCompra)) {
+                    UUID compraId = UUID.fromString(datosCompra[0]);
+                    String nombreProducto = datosCompra[2];
+                    int cantidad = Integer.parseInt(datosCompra[3]);
+                    double precioTotal = Double.parseDouble(datosCompra[4]);
+                    Compra compra = new Compra(compraId, nombreUsuarioCompra, nombreProducto, cantidad, precioTotal);
+                    comprasUsuario.add(compra);
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return comprasUsuario;
+    }
 
 }
 
